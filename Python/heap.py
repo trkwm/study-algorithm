@@ -1,5 +1,5 @@
 
-class MinHeap():
+class MinHeap:
     def __init__(self, capacity):
         self.capacity = capacity
         self.heap_queue = [None]*(capacity+1)
