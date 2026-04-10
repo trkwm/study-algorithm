@@ -1,23 +1,25 @@
 from heap import MinHeap
 
-def dijkstra(graph, start_vertex):
-    checked = [False]*len(graph)
-    dist = [float("inf")]*len(graph)
+def Prim(graph, start_vertex):
+    MST_sum = 0
+    checked = [False]*(len(graph))
     Minheapq = MinHeap(10**5)
-    Minheapq.Insert((0,start_vertex))
+    Minheapq.Insert((0,start_vertex,-1))
+    Tree = list()
     while Minheapq.queue_size>0:
-        now_dist, now_vertex = Minheapq.ExtractMin()
+        now_weight,now_vertex,pre_vertex = Minheapq.ExtractMin()
         if checked[now_vertex-1]:
             continue
         checked[now_vertex-1] = True
-        dist[now_vertex-1] = now_dist
+        if pre_vertex!=-1:
+            MST_sum += now_weight
+        if pre_vertex!=-1:
+            Tree.append((now_vertex,pre_vertex))
         for nxt_vertex, weight in graph[now_vertex-1]:
             if checked[nxt_vertex-1]:
                 continue
-            nxt_dist = now_dist+weight
-            if nxt_dist < dist[nxt_vertex-1]:
-                Minheapq.Insert((nxt_vertex,nxt_vertex))
-    return dist
+            Minheapq.Insert((weight,nxt_vertex,now_vertex))
+    return MST_sum, Tree
 
 N,M,S = map(int, input().split())
 graph = [[] for _ in range(N)]
@@ -25,4 +27,4 @@ for _ in range(M):
     a,b,c = map(int, input().split())
     graph[a-1].append((b,c))
     graph[b-1].append((a,c))
-print(dijkstra(graph,S)) 
+print(Prim(graph, S))
