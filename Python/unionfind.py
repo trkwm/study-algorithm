@@ -15,7 +15,7 @@ class UnionFind:
     def issame(self, x, y):
         return self.root(x)==self.root(y)
     
-    def unite(self, x, y):
+    def union(self, x, y):
         rootx = self.root(x)
         rooty = self.root(y)
         if rootx == rooty:
